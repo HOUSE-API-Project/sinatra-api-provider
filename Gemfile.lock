@@ -1,6 +1,9 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    bson (1.9.1)
+    bson_ext (1.9.1)
+      bson (~> 1.9.1)
     chunky_png (1.2.8)
     compass (0.12.2)
       chunky_png (~> 1.2)
@@ -9,6 +12,8 @@ GEM
     fssm (0.2.10)
     haml (4.0.3)
       tilt
+    mongo (1.9.1)
+      bson (~> 1.9.1)
     rack (1.5.2)
     rack-protection (1.5.0)
       rack
@@ -26,8 +31,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bson
+  bson_ext
   compass
   haml
+  mongo
   rake
   sass
   shotgun
