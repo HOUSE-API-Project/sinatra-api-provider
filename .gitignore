@@ -2,3 +2,17 @@
 .sass-cache/
 .DS_Store
 tmp/**/*
+Gemfile.lock
+db/*.sqlite3
+db/*.db
+db/schema.rb
+log/*.log
+coverage
+.sass-cache/
+.rbenv-version
+vendor/gems/
+public/assets/*.css
+public/assets/*.js
+public/assets/*.gz
+public/assets/*.yml
+.svn
