@@ -11,29 +11,30 @@ class SinatraApiProvider < Sinatra::Base
 
   def initialize(app = nil, params = {})
     super(app)
-    @run_date      = Date.today
-    @mongo         = Mongo::Connection.new('localhost', 27017)
-    @db            = @mongo.db('fluentd')
-    @coll          = @db.collection('news.feed')
+    @mongo    = Mongo::Connection.new('localhost', 27017)
+    @db       = @mongo.db('fluentd')
+    @coll     = @db.collection('news.feed')
+    @params   = Rack::Utils.parse_query(@env['rack.request.query_string'])
   end
 
   #get '/' do
   #  haml :index
   #end
 
-  get '/news.today' do
+  get '/news' do
     content_type :json, :charset => 'utf-8'
+    if @params['date']
+      begin
+        run_date = Date.strptime(@params['date'], "%Y%m%d")
+      rescue ArgumentError
+        run_date = Date.today - 1
+      end
+    else
+      run_date = Date.today - 1
+    end
 
-    from = Time.parse((@run_date).strftime("%Y%m%d"))
-    @json = @coll.find({:time => {"$gt" => from}})
-    @json.to_a.to_json
-  end
-
-  get '/news.yesterday' do
-    content_type :json, :charset => 'utf-8'
-
-    from = Time.parse((@run_date - 1).strftime("%Y%m%d"))
-    to   = Time.parse((@run_date).strftime("%Y%m%d"))
+    from = Time.parse((run_date - 1).strftime("%Y%m%d"))
+    to   = Time.parse((run_date).strftime("%Y%m%d"))
     @json = @coll.find({:time => {"$gt" => from , "$lt" => to}})
     @json.to_a.to_json
   end
