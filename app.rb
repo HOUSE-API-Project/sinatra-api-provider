@@ -28,18 +28,25 @@ class SinatraApiProvider < Sinatra::Base
   get '/news' do
     content_type :json, :charset => 'utf-8'
     @params   = Rack::Utils.parse_query(@env['rack.request.query_string'])
-    if @params['date']
+    if @params['from']
       begin
-        run_date = Date.strptime(@params['date'], "%Y%m%d")
+        from = Time.strptime(@params['from'], "%Y%m%d%H%M%S")
       rescue ArgumentError
-        run_date = Date.today
+        from = Time.today
       end
     else
-      run_date = Date.today
+      from = Time.today
+    end
+    if @params['to']
+      begin
+        to = Time.strptime(@params['to'], "%Y%m%d%H%M%S")
+      rescue ArgumentError
+        to = Time.today
+      end
+    else
+      to = Time.today
     end
 
-    from = Time.parse((run_date).strftime("%Y%m%d"))
-    to   = Time.parse((run_date + 1).strftime("%Y%m%d"))
     @json = @coll.find({:time => {"$gt" => from , "$lt" => to}})
     @json.to_a.to_json
   end
