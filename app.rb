@@ -59,7 +59,8 @@ class SinatraApiProvider < Sinatra::Base
     content_type :json, :charset => 'utf-8'
     from, to = time_parser
     @coll = @db.collection(params[:tag])
-    @json = @coll.find({:time => {"$gt" => from , "$lt" => to}}).to_a.to_json
+    json_array = @coll.find({:time => {"$gt" => from , "$lt" => to}}).to_a
+    @json = (json_array.length == 1 ? json_array.last.to_json : json_array.to_json)
   end
 
   # start the server if ruby file executed directly
