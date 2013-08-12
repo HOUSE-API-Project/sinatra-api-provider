@@ -55,10 +55,10 @@ class SinatraApiProvider < Sinatra::Base
     haml :index
   end
 
-  get '/:tag' do
+  get '/:tag_h/:tag_f' do
     content_type :json, :charset => 'utf-8'
     from, to = time_parser
-    @coll = @db.collection(params[:tag])
+    @coll = @db.collection(params[:tag_h] + "." + params[:tag_f])
     json_array = @coll.find({:time => {"$gt" => from , "$lt" => to}}).to_a
     @json = (json_array.length == 1 ? json_array.last.to_json : json_array.to_json)
   end
