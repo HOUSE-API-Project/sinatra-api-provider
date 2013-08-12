@@ -55,11 +55,10 @@ class SinatraApiProvider < Sinatra::Base
     haml :index
   end
 
-  get '/shibuhouse.bf_kunugi_sound' do
+  get '/:tag' do
     content_type :json, :charset => 'utf-8'
-
-    @coll = @db.collection('shibuhouse.bf_kunugi_sound')
     from, to = time_parser
+    @coll = @db.collection(params[:tag])
     @json = @coll.find({:time => {"$gt" => from , "$lt" => to}}).to_a.to_json
   end
 
