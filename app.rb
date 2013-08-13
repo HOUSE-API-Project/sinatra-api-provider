@@ -90,7 +90,7 @@ class SinatraApiProvider < Sinatra::Base
     @coll = @db.collection(@params[:tag_h] + "." + @params[:tag_f])
     @params = Rack::Utils.parse_query(@env['rack.request.query_string'])
     json_array = query.to_a
-    @json = (json_array.length == 1 ? json_array.last.to_json : json_array.to_json)
+    json_array.length == 1 ? json_array.last.to_json : json_array.to_json
   end
 
   run! if app_file == $0
