@@ -44,7 +44,7 @@ class SinatraApiProvider < Sinatra::Base
   end
 
   def limit_parser
-    if @params['limit'] = 0
+    if @params['limit'] == 0
       @limit_params[:limit] = nil
     elsif @params['limit']
       @limit_params[:limit] = @params['limit'].to_i
