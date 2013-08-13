@@ -17,6 +17,24 @@ class SinatraApiProvider < Sinatra::Base
     @db       = @mongo.db('houseapi')
   end
 
+  def period_parser
+    if @params['period']
+      case @params['period']
+        when "day"
+          period = 1
+        when "week"
+          period = 7
+        when "month"
+          period = 30
+        else
+          period = 0
+        end
+      end
+      from = Time.parse((Date.today - period).strftime("%Y%m%d"))
+      @query_params[:time] = {"$gt" => from}
+    end
+  end
+
   def time_parser
     if @params['from']
       begin
@@ -62,6 +80,7 @@ class SinatraApiProvider < Sinatra::Base
     @limit_params = {:limit => 1}
     @sort_params = {:time => :desc}
 
+    period_parser
     time_parser
     limit_parser
     sort_parser
