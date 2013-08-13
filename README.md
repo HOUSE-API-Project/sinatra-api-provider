@@ -7,7 +7,7 @@ The simple web API interface of MongoDB.
     Get parameters.
 
     limit                  # The count of json length, default as one. Zero means unlimited.
-    from                   # The format is YYYYMMDDmmddss.
+    from                   # The format is YYYYMMDDhhmmss.
     to                     # from and to require a combination.
     sort                   # sort=asc means sort by ascending. It will sort decending order in other cases.
 
