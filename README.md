@@ -2,14 +2,14 @@
 
 ## This codes provide API service for MongoDB
 
-The simple interface of MongoDB.
+The simple web API interface of MongoDB.
 
     Get parameters.
 
-    limit                  # The count of json length, default as one.
-    from                   # YYYYMMDDmmddss
+    limit                  # The count of json length, default as one. Zero means unlimited.
+    from                   # The format is YYYYMMDDmmddss.
     to                     # from and to require a combination.
-    sort                   # sort=asc means sorting ascending. It will sort decending order in other cases.
+    sort                   # sort=asc means sort by ascending. It will sort decending order in other cases.
 
 ## How do I get started?
 
@@ -20,8 +20,4 @@ The simple interface of MongoDB.
 Start the app by running:
 
     rake s
-
-## Providing
-
-This application providing the any tag of MongoDB in JSON format.
 
