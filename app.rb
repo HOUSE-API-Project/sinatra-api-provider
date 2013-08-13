@@ -18,51 +18,62 @@ class SinatraApiProvider < Sinatra::Base
   end
 
   def time_parser
-    params   = Rack::Utils.parse_query(@env['rack.request.query_string'])
-
-    if params['from']
+    if @params['from']
       begin
-        from = Time.strptime(params['from'], "%Y%m%d%H%M%S")
+        from = Time.strptime(@params['from'], "%Y%m%d%H%M%S")
       rescue ArgumentError
-        from = Time.parse((Date.today - 1).strftime("%Y%m%d"))
+        from = nil
       end
     else
-      from = Time.parse((Date.today - 1).strftime("%Y%m%d"))
+      from = nil
     end
 
-    if params['to']
+    if @params['to']
       begin
-        to = Time.strptime(params['to'], "%Y%m%d%H%M%S")
+        to = Time.strptime(@params['to'], "%Y%m%d%H%M%S")
       rescue ArgumentError
-        to = Time.parse((Date.today + 1).strftime("%Y%m%d"))
+        to = nil
       end
     else
-      to = Time.parse((Date.today + 1).strftime("%Y%m%d"))
+      to = nil
     end
 
-    return from, to
+    if from and to
+      @query_params[:time] = {"$gt" => from , "$lt" => to}
+    end
   end
 
+  def query
+    @query_params = {}
+
+    time_parser
+
+    @coll.find(@query_params)
+  end
+
+  # Logging
   configure :development, :production do
     enable :logging
   end
 
+  # Reloader
   configure :development do
     register Sinatra::Reloader
   end
 
+  # Root Index
   get '/' do
     haml :index
   end
 
+  # Generic Routing
   get '/:tag_h/:tag_f' do
+    @params = Rack::Utils.parse_query(@env['rack.request.query_string'])
     content_type :json, :charset => 'utf-8'
-    from, to = time_parser
-    @coll = @db.collection(params[:tag_h] + "." + params[:tag_f])
-    json_array = @coll.find({:time => {"$gt" => from , "$lt" => to}}).to_a
+    @coll = @db.collection(@params[:tag_h] + "." + @params[:tag_f])
+    json_array = query.to_a
     @json = (json_array.length == 1 ? json_array.last.to_json : json_array.to_json)
   end
 
-  # start the server if ruby file executed directly
   run! if app_file == $0
 end
