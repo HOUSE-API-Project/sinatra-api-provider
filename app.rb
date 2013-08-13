@@ -43,19 +43,23 @@ class SinatraApiProvider < Sinatra::Base
     end
   end
 
-  def sort_parser
-    if @params['sort']
-      @query_params[:time] = :desc
+  def limit_parser
+    if @params['limit']
+      @query_params[:limit] = @params['limit']
     end
   end
 
   def query
     @query_params = {}
 
-    sort_parser
     time_parser
+    limit_parser
 
-    @coll.find(@query_params)
+    if @params['sort']
+      @coll.find(@query_params)
+    else
+      @coll.find(@query_params).sort(:time => :desc)
+    end
   end
 
   # Logging
