@@ -43,9 +43,16 @@ class SinatraApiProvider < Sinatra::Base
     end
   end
 
+  def sort_parser
+    if @params['sort']
+      @query_params[:time] = :desc
+    end
+  end
+
   def query
     @query_params = {}
 
+    sort_parser
     time_parser
 
     @coll.find(@query_params)
@@ -68,9 +75,9 @@ class SinatraApiProvider < Sinatra::Base
 
   # Generic Routing
   get '/:tag_h/:tag_f' do
-    @params = Rack::Utils.parse_query(@env['rack.request.query_string'])
     content_type :json, :charset => 'utf-8'
     @coll = @db.collection(@params[:tag_h] + "." + @params[:tag_f])
+    @params = Rack::Utils.parse_query(@env['rack.request.query_string'])
     json_array = query.to_a
     @json = (json_array.length == 1 ? json_array.last.to_json : json_array.to_json)
   end
