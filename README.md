@@ -1,6 +1,15 @@
 # Sinatra API Provider
 
-## This codes provide API service for something
+## This codes provide API service for MongoDB
+
+The simple interface of MongoDB.
+
+    Get parameters.
+
+    limit                  # The count of json length, default as one.
+    from                   # YYYYMMDDmmddss
+    to                     # from and to require a combination.
+    sort                   # sort=asc means sorting ascending. It will sort decending order in other cases.
 
 ## How do I get started?
 
