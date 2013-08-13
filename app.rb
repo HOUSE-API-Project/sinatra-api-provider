@@ -28,7 +28,6 @@ class SinatraApiProvider < Sinatra::Base
           period = 30
         else
           period = 0
-        end
       end
       from = Time.parse((Date.today - period).strftime("%Y%m%d"))
       @query_params[:time] = {"$gt" => from}
