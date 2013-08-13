@@ -45,12 +45,13 @@ class SinatraApiProvider < Sinatra::Base
 
   def limit_parser
     if @params['limit']
-      @query_params[:limit] = @params['limit']
+      @limit_params[:limit] = @params['limit'].to_i
     end
   end
 
   def query
     @query_params = {}
+    @limit_params = {:limit => 1}
 
     time_parser
     limit_parser
@@ -58,7 +59,7 @@ class SinatraApiProvider < Sinatra::Base
     if @params['sort']
       @coll.find(@query_params)
     else
-      @coll.find(@query_params).sort(:time => :desc)
+      @coll.find(@query_params, @limit_params).sort(:time => :desc)
     end
   end
 
