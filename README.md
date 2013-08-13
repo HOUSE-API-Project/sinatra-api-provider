@@ -9,6 +9,7 @@ The simple web API interface of MongoDB.
     limit                  # The count of json length, default as one. Zero means unlimited.
     from                   # The format is YYYYMMDDhhmmss.
     to                     # from and to require a combination.
+    period                 # day or week or month. It can't be compatible with period and from/to.
     sort                   # sort=asc means sort by ascending. It will sort decending order in other cases.
 
 ## How do I get started?
