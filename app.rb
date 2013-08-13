@@ -52,7 +52,7 @@ class SinatraApiProvider < Sinatra::Base
   end
 
   def sort_parser
-    if @params['sort']
+    if @params['sort'] == "asc"
       @sort_params[:time] = :asc
     end
   end
