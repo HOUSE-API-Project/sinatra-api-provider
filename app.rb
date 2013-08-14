@@ -74,7 +74,7 @@ class SinatraApiProvider < Sinatra::Base
     end
   end
 
-  def query
+  def finder
     @query_params = {}
     @limit_params = {:limit => 1}
     @sort_params = {:time => :desc}
@@ -85,6 +85,12 @@ class SinatraApiProvider < Sinatra::Base
     sort_parser
 
     @coll.find(@query_params, @limit_params).sort(@sort_params)
+  end
+
+  def query(coll_name)
+    @coll = @db.collection(coll_name)
+    @params = Rack::Utils.parse_query(@env['rack.request.query_string'])
+    finder.to_a
   end
 
   # Logging
@@ -105,10 +111,20 @@ class SinatraApiProvider < Sinatra::Base
   # Generic Routing
   get '/:tag_h/:tag_f' do
     content_type :json, :charset => 'utf-8'
-    @coll = @db.collection(@params[:tag_h] + "." + @params[:tag_f])
-    @params = Rack::Utils.parse_query(@env['rack.request.query_string'])
-    json_array = query.to_a
-    json_array.length == 1 ? json_array.last.to_json : json_array.to_json
+    result = query([@params[:tag_h], @params[:tag_f]].join("."))
+    result.length == 1 ? result.last.to_json : result.to_json
+  end
+
+  get '/:tag_h/:tag_m/:tag_f' do
+    content_type :json, :charset => 'utf-8'
+    result = query([@params[:tag_h], @params[:tag_m], @params[:tag_f]].join("."))
+    result.length == 1 ? result.last.to_json : result.to_json
+  end
+
+  get '/:tag_1/:tag_2/:tag_3/:tag_4' do
+    content_type :json, :charset => 'utf-8'
+    result = query([@params[:tag_1], @params[:tag_2], @params[:tag_3], @params[:tag_4]].join("."))
+    result.length == 1 ? result.last.to_json : result.to_json
   end
 
   run! if app_file == $0
