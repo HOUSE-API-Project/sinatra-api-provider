@@ -44,7 +44,12 @@ describe "App" do
     last_response.should be_ok
   end
 
-  it "should respond to /" do
+  it "should return the correct content-type when viewing api" do
+    get '/rspec/debug/forward'
+    last_response.headers["Content-Type"].should == "application/json;charset=utf-8"
+  end
+
+  it "should return the correct data from api" do
     result = JSON.parse(Net::HTTP.get(URI.parse('http://133.242.144.202/api/rspec/debug/forward?limit=1')))
     result["hoge"].should == "fuga"
   end
