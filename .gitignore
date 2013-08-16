@@ -11,6 +11,7 @@ coverage
 .sass-cache/
 .rbenv-version
 vendor/gems/
+vendor/bundler/
 public/assets/*.css
 public/assets/*.js
 public/assets/*.gz

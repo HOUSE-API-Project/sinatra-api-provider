@@ -9,6 +9,10 @@ gem 'mongo'
 gem 'bson'
 gem 'bson_ext'
 
-# Sass & Compass
 gem 'sass'
 gem 'compass'
+
+group :test do
+  gem 'rspec'
+  gem 'fluent-logger'
+end

@@ -9,7 +9,7 @@ require 'time'
 require 'mongo'
 
 class SinatraApiProvider < Sinatra::Base
-  require './helpers/render_partial'
+  #require './helpers/render_partial'
 
   def initialize(app = nil, params = {})
     super(app)
