@@ -30,6 +30,8 @@ class SinatraApiProvider < Sinatra::Base
           period = 0
       end
       from = Time.parse((Date.today - period).strftime("%Y%m%d"))
+      from += from.utc_offset
+      from = from.utc
       @query_params[:time] = {"$gt" => from}
     end
   end
@@ -38,6 +40,8 @@ class SinatraApiProvider < Sinatra::Base
     if @params['from']
       begin
         from = Time.strptime(@params['from'], "%Y%m%d%H%M%S")
+        from += from.utc_offset
+        from = from.utc
       rescue ArgumentError
         from = nil
       end
@@ -48,6 +52,8 @@ class SinatraApiProvider < Sinatra::Base
     if @params['to']
       begin
         to = Time.strptime(@params['to'], "%Y%m%d%H%M%S")
+        to += to.utc_offset
+        to = to.utc
       rescue ArgumentError
         to = nil
       end
