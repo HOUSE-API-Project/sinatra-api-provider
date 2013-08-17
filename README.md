@@ -20,5 +20,5 @@ The simple web API interface of MongoDB.
 
 Start the app by running:
 
-    rake s
+    bundle rake s
 
