@@ -17,6 +17,10 @@ class SinatraApiProvider < Sinatra::Base
     @db       = @mongo.db('houseapi')
   end
 
+  def logger
+    env['app.logger'] || env['rack.logger']
+  end
+
   def period_parser
     if @params['period']
       case @params['period']
