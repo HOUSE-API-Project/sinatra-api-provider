@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 require 'rubygems'
 require 'sinatra/base'
-require 'sinatra/reloader'
 require 'haml'
 require 'json'
 require 'date'
@@ -15,6 +14,7 @@ class SinatraApiProvider < Sinatra::Base
     super(app)
     @mongo    = Mongo::Connection.new('localhost', 27017)
     @db       = @mongo.db('houseapi')
+    @root = Sinatra::Application.environment == :production ? '/api/' : '/'
   end
 
   def logger
@@ -101,16 +101,6 @@ class SinatraApiProvider < Sinatra::Base
     @coll = @db.collection(coll_name)
     @params = Rack::Utils.parse_query(@env['rack.request.query_string'])
     finder.to_a
-  end
-
-  # Logging
-  configure :development, :production do
-    enable :logging
-  end
-
-  # Reloader
-  configure :development do
-    register Sinatra::Reloader
   end
 
   # Root Index
