@@ -111,18 +111,24 @@ class SinatraApiProvider < Sinatra::Base
   # Generic Routing
   get '/:tag_h/:tag_f' do
     content_type :json, :charset => 'utf-8'
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "POST"
     result = query([@params[:tag_h], @params[:tag_f]].join("."))
     result.length == 1 ? result.last.to_json : result.to_json
   end
 
   get '/:tag_h/:tag_m/:tag_f' do
     content_type :json, :charset => 'utf-8'
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "POST"
     result = query([@params[:tag_h], @params[:tag_m], @params[:tag_f]].join("."))
     result.length == 1 ? result.last.to_json : result.to_json
   end
 
   get '/:tag_1/:tag_2/:tag_3/:tag_4' do
     content_type :json, :charset => 'utf-8'
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "POST"
     result = query([@params[:tag_1], @params[:tag_2], @params[:tag_3], @params[:tag_4]].join("."))
     result.length == 1 ? result.last.to_json : result.to_json
   end
