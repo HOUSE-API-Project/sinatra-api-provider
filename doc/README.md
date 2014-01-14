@@ -1,7 +1,7 @@
-## Api Documents
+## API Documents
 
 Get parameters.
-This api takes following parameters.
+This API takes following parameters.
 
 ```
 GET /api/:housename/:device/:keys
@@ -89,7 +89,7 @@ GET /api/:housename/:device/:keys?period=day&limit=5
 
 Parameters:
 
-+ `period` - The certain period of time. Specify day, week or month.
++ `period` - The certain period of time. Specify 'day', 'week' or 'month'.
 
 ## Sort
 
