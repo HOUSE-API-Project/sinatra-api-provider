@@ -1,7 +1,7 @@
-## Api List
+## API Documents
 
 Get parameters.
-This function takes following parameters to api.
+This API takes following parameters.
 
 ```
 GET /api/:housename/:device/:keys
@@ -68,7 +68,7 @@ Parameters:
 
 ## From and to
 
-Creates a new user. Note only administrators can create new users.
+Need to limit parameter. If omitted, show one record within the period.
 
 ```
 GET /api/:housename/:device/:keys?from=20140113080810&to=20140113080950&limit=5
@@ -78,6 +78,18 @@ Parameters:
 
 + `from` (optional) - From datetime. The format is YYYYMMDDhhmmss (UTC).
 + `to` (optional) - To datetime. Same above.
+
+## Period
+
+Period parameter takes certain period of time.
+
+```
+GET /api/:housename/:device/:keys?period=day&limit=5
+```
+
+Parameters:
+
++ `period` - The certain period of time. Specify 'day', 'week' or 'month'.
 
 ## Sort
 
